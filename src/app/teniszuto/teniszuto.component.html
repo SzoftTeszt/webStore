@@ -1,5 +1,6 @@
+{{keresendo}}
 <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div *ngFor="let termek of products" class="col">
+    <div *ngFor="let termek of products|search:keresendo" class="col">
       <div class="card h-100">
         <app-images-view [urls]="termek.imagesUrl" class="card-img-top">
         </app-images-view>

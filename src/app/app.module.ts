@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
@@ -16,6 +17,9 @@ import { HomeComponent } from './home/home.component';
 import { ProductsListComponent } from './products-list/products-list.component';
 import { TeniszutoComponent } from './teniszuto/teniszuto.component';
 import { ImagesViewComponent } from './images-view/images-view.component';
+import { onAppInit } from './initializer';
+import { ConfigService } from './config.service';
+import { SearchPipe } from './search.pipe';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,8 @@ import { ImagesViewComponent } from './images-view/images-view.component';
     HomeComponent,
     ProductsListComponent,
     TeniszutoComponent,
-    ImagesViewComponent
+    ImagesViewComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
@@ -34,9 +39,16 @@ import { ImagesViewComponent } from './images-view/images-view.component';
     NgbModule,
     AngularFireModule.initializeApp(Environments.firebaseConfig),
     AngularFireStorageModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: APP_INITIALIZER,
+    useFactory:  onAppInit,
+    multi:true,
+    deps:[ConfigService, HttpClient]
+
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

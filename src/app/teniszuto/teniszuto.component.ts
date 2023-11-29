@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BaseService } from '../base.service';
 import { map } from 'rxjs';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-teniszuto',
@@ -9,7 +10,13 @@ import { map } from 'rxjs';
 })
 export class TeniszutoComponent {
   products:any
-  constructor(private base:BaseService){
+  keresendo:any=""
+  constructor(private base:BaseService, private search:SearchService){
+
+    this.search.getKeresendo().subscribe(
+      (k)=>this.keresendo=k
+    )
+
     this.base.getProducts().snapshotChanges().pipe(
       map(
         (changes:any)=>changes.map(
